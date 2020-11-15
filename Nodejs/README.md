@@ -1,134 +1,42 @@
-# Mac 使用总结
+# Node相关
 
-## 安装 [Homebrew](https://brew.sh)
+
+### 解决npm全局命令失效的方法
+
+> 1. 使用npm config get prefix，查看全局命令所在路径。<br>
+> 2. 将1中的路径，加入环境变量中即可解决。
+
+### 前端项目中处理资源路径
+
+>当你在 JavaScript、CSS 或*.vue文件中使用相对路径 (必须以.开头) 引用一个静态资源时，该资源将被webpack处理
 ```
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-```
-
-
-## 安装 [Homebrew cask](https://caskroom.github.io/)
-```
-brew tap caskroom/cask
-```
-
-之后安装大部分软件只需要用 [Homebrew](https://brew.sh) 和 [Homebrew cask](https://caskroom.github.io/) 即可。
-
-需要破解版的应用的话可以去 [这里找](http://xclient.info/)。
-
-
-## 推荐软件
-```
-alfred
-bartender
-cheatsheet
-google-chrome
-istat-menus
-iterm2
-licecap
-manico
-moon
-oh-my-zsh
-snap
-the-unarchive
-vanilla
-visual-studio-code
+    - 如果URL是一个绝对路径（/images/favorite.ico）,它将会被保留不变
+        <ime alt = '' src="/images/logo.png">
+        <img alt = '' src="http://images.com/logo.png">
+    - 如果URL以.开头，会作为一个相对模块请求被解释并基于文件系统相对路径。
+        <img alt = 'vue logo' src='./assets/logo.png' >
+    - 如果以~开头，会作为一个模块请求被解析。Vue CLI默认会设置一个指向 src 的别名@
+    import Hello from '@/components/Hello.vue';
 ```
 
+### 何时使用public文件夹
+> 通过webpack的处理并获得如下好处：<br>
+> - 脚本和样式表会被压缩且打包在一起，从而避免额外的网络请求。<br>
+> - 文件丢失会直接在编译时报错，而不是到了用户端才产生 404 错误。<br>
+> - 最终生成的文件名包含了内容哈希，因此你不必担心浏览器会缓存它们的老版本。<br>
 
-## brew cask 升级软件
+> 如下情况考虑使用public文件夹
+> - 你需要在构建输出中指定一个固定的文件名字。<br>
+> - 你有上千个图片，需要动态引用它们的路径。<br>
+> - 有些库可能和 webpack 不兼容，除了将其用一个独立的`<script>`标签引入没有别的选择。<br>
+
+### CSS相关使用预处理器
+> 如果创建项目时没有选择需要的预处理器（Sass/Less/Stylus），则需手动安装相应loader
 ```
-brew tap buo/cask-upgrade
-
-brew cu
-
-Usage: brew cu [CASK] [options]
--a, --all             Include apps that auto-update in the upgrade.
---cleanup         Cleans up cached downloads and tracker symlinks after
-updating.
--f  --force           Include apps that are marked as latest
-(i.e. force-reinstall them).
---no-brew-update  Prevent auto-update of Homebrew, taps, and formulae
-before checking outdated apps.
--y, --yes             Update all outdated apps; answer yes to updating packages.
--q, --quiet           Do not show information about installed apps or current options.
+# Sass
+npm install -D sass-loader node-sass
+# Less
+npm install -D less-loader less
+# Stylus
+npm install -D stylus-loader stylus
 ```
-
-
-## QQ登不上清理网络缓存
-```
-sudo killall -9 networkd
-```
-
-
-## 重置图标
-```
-defaults write com.apple.dock ResetLaunchPad -bool true; killall Dock
-```
-
-
-## 拷贝 Finder 文件路径
-```
-Cmd + Opt + C
-```
-
-
-## 显示隐藏文件
-```
-defaults write com.apple.finder AppleShowAllFiles -bool true ; killall Finder
-```
-或者在 Finder 中 `Cmd + Shift + .`。
-
-
-## 隐藏隐藏文件
-```
-defaults write com.apple.finder AppleShowAllFiles -bool false ; killall Finder
-```
-或者在 Finder 中 `Cmd + Shift + .`。
-
-
-## Finder 底部显示路径
-```
-Cmd + Opt + P
-```
-
-
-## Finder 顶部显示路径
-```
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
-```
-
-
-## host 文件路径
-```
-/etc/hosts
-```
-
-
-## 快捷锁屏
-系统偏好设置 -> 安全性与隐私 -> 通用 -> 可设置进入睡眠或开始屏幕后多久需要输入密码
-
-OS X 10.9 以上 短按 Power（此为 Sleep，会断网）
-或者
-```
-Ctrl + Shift + Power: 关闭屏幕
-Cmd + Opt + Power: 睡眠
-Cmd + Ctrl + Power: 重启
-Cmd + Ctrl +Opt + Power: 关机
-```
-或者
-```
-系统偏好设置 -> 桌面与屏幕保护程序 -> 屏幕保护程序 -> 触发角
-```
-或者
-```
-Afread -> lock/sleep/screen saver
-```
-
-
-
-
-## 推荐参考
-
-[强迫症的 Mac 设置指南](https://github.com/macdao/ocds-guide-to-setting-up-mac)
-
-[Best App](https://github.com/hzlzh/Best-App)

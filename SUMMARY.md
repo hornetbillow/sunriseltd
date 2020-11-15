@@ -9,7 +9,7 @@
 * [H5 使用教程](h5&core/README.md)
 
 ## TypeScript
-* [TypeScript 使用教程](h5&core/README.md)
+* [TypeScript 使用教程](typeScript/README.md)
 
 ## React&Redux
 * [React&Redux 使用教程](react&redux/README.md)
@@ -19,3 +19,6 @@
 
 ## Vue
 * [Vue 原理剖析](vue/README.md)
+
+# Less与Sass样式的区别
+* [Less与Sass样式](less&sass/README.md)
